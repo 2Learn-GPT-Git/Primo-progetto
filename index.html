@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orologi mondiali</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: #f5f7fb;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+      }
+
+      .clock-card {
+        width: min(560px, 100%);
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 20px 45px rgba(20, 30, 70, 0.15);
+        padding: 32px;
+      }
+
+      .clock-card h1 {
+        margin: 0 0 8px;
+        font-size: 1.75rem;
+        color: #1a2433;
+      }
+
+      .clock-card p {
+        margin: 0 0 24px;
+        color: #5a667a;
+      }
+
+      .city-list {
+        display: grid;
+        gap: 16px;
+      }
+
+      .city {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-radius: 14px;
+        background: #f3f6fb;
+      }
+
+      .city-name {
+        font-weight: 600;
+        color: #203048;
+      }
+
+      .city-time {
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        color: #1a69d5;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="clock-card" aria-live="polite">
+      <h1>Orario attuale</h1>
+      <p>Fusi orari di Roma, Bucarest e Istanbul.</p>
+      <div class="city-list">
+        <div class="city">
+          <span class="city-name">Roma</span>
+          <span class="city-time" data-timezone="Europe/Rome">--:--:--</span>
+        </div>
+        <div class="city">
+          <span class="city-name">Bucarest</span>
+          <span class="city-time" data-timezone="Europe/Bucharest">--:--:--</span>
+        </div>
+        <div class="city">
+          <span class="city-name">Istanbul</span>
+          <span class="city-time" data-timezone="Europe/Istanbul">--:--:--</span>
+        </div>
+      </div>
+    </section>
+    <script>
+      const formatter = (timeZone) =>
+        new Intl.DateTimeFormat("it-IT", {
+          timeZone,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+
+      const updateTimes = () => {
+        document.querySelectorAll("[data-timezone]").forEach((node) => {
+          const zone = node.dataset.timezone;
+          const time = formatter(zone).format(new Date());
+          node.textContent = time;
+        });
+      };
+
+      updateTimes();
+      setInterval(updateTimes, 1000);
+    </script>
+  </body>
+</html>
